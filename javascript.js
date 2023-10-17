@@ -50,22 +50,18 @@ for( let i = 0; i < 5; i++) {
     let compChoice = getComputerChoice();
     let playerChoice = getPlayerChoice();
     
-    //Display choices
+    // Display choices
     console.log(`You chose ${choiceArray[playerChoice]}. The computer chose ${choiceArray[compChoice]}.`)
 
+    // Play the game and show results
     let result = playGame(compChoice, playerChoice);
     console.log(result);
 
 };
 
+// Show the overall result of the games
 if (score > 0) {
     console.log("You won the tournament!")
 } else {
     console.log("You did not win the tournament.")
 }
-
-// let compChoice = getComputerChoice();
-// let playerChoice = playerSelection();
-
-// console.log(compChoice);
-// console.log(playerChoice);
