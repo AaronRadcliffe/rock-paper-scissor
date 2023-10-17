@@ -42,22 +42,28 @@ function playGame(comp, player) {
     }
 };
 
-let choiceArray = ["rock", "paper", "scissors"]    // for convering numbers to choices
+// Calls the playGame function 5 times for a tournament
+function game() {
+    for( let i = 0; i < 5; i++) {
+        // Get choices
+        let compChoice = getComputerChoice();
+        let playerChoice = getPlayerChoice();
+        
+        // Display choices
+        console.log(`You chose ${choiceArray[playerChoice]}. The computer chose ${choiceArray[compChoice]}.`)
+    
+        // Play the game and show results
+        let result = playGame(compChoice, playerChoice);
+        console.log(result);
+    
+    };    
+};
+
+let choiceArray = ["rock", "paper", "scissors"]    // for converting numbers to choices
 let score = 0;                                     // if this is >0 at end then player wins
 
-for( let i = 0; i < 5; i++) {
-    // Get choices
-    let compChoice = getComputerChoice();
-    let playerChoice = getPlayerChoice();
-    
-    // Display choices
-    console.log(`You chose ${choiceArray[playerChoice]}. The computer chose ${choiceArray[compChoice]}.`)
-
-    // Play the game and show results
-    let result = playGame(compChoice, playerChoice);
-    console.log(result);
-
-};
+// Start the tournament
+game();
 
 // Show the overall result of the games
 if (score > 0) {
