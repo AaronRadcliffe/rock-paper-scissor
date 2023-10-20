@@ -6,68 +6,62 @@ function getComputerChoice() {
     return Math.floor(Math.random() * 3);
 };
 
-// Asking the player for their choice
-function getPlayerChoice() {
-    let choice = prompt("Choose rock, paper, or scissors");
-
-    // Changing the players choice to a number
-    switch(choice.charAt(0).toLowerCase()) {
-        case "r":
-            choice = 0;
-            break;
-        case "p": 
-            choice = 1;
-            break;
-        case "s":
-            choice = 2;
-            break;
-        default:
-            console.log("Invalid choice. Assigning rock");
-            choice = 0;
-    }
-    return choice;
-};
-
 // Determine the winner of a single game
-function playGame(comp, player) {
-    // Find out who won
+function playRound(comp, player) {
     if(comp === player){
         return "It's a tie.";
     } else if (comp > player || comp === 0 && player === 2) {
-        score -= 1;
+        compScore += 1;
         return "The computer wins.";
     } else {
-        score += 1;
+        playerScore += 1;
         return "You won!";
     }
 };
 
-// Calls the playGame function 5 times for a tournament
-function game() {
-    for( let i = 0; i < 5; i++) {
-        // Get choices
-        let compChoice = getComputerChoice();
-        let playerChoice = getPlayerChoice();
-        
-        // Display choices
-        console.log(`You chose ${choiceArray[playerChoice]}. The computer chose ${choiceArray[compChoice]}.`)
-    
-        // Play the game and show results
-        let result = playGame(compChoice, playerChoice);
-        console.log(result);
-    
-    };    
+// Calls the playRound function 5 times for a tournament
+function game(playerChoice) {
+    // Display choices
+    let compChoice = getComputerChoice();
+    choices.textContent = `You chose ${choiceArray[playerChoice]}. The computer chose ${choiceArray[compChoice]}.`;
+
+    // Play the game and show results
+    let roundOutcome = playRound(compChoice, playerChoice);
+    roundResults.textContent = roundOutcome;
+    tournamentResults.textContent = `Your score: ${playerScore} Computer's score: ${compScore}`;
+
+    // Announce a winner if someone reaches 5 points then reset scores
+    if(playerScore >= 5) {
+        tournamentResults.textContent = 'You have won 5 rounds. Congratulations! Resetting scores.';
+        playerScore = 0;
+        compScore = 0;
+    } else if (compScore >= 5) {
+        tournamentResults.textContent = 'The computer has won 5 rounds. Better luck next time. Resetting scores.';
+        playerScore = 0;
+        compScore = 0;
+    }
 };
 
-let choiceArray = ["rock", "paper", "scissors"]    // for converting numbers to choices
-let score = 0;                                     // if this is >0 at end then player wins
+let choiceArray = ["rock", "paper", "scissors"] // for converting numbers to choices
+let playerScore = 0;
+let compScore = 0;
+let choices = document.querySelector('#choices');
+let roundResults = document.querySelector('#roundResults');
+let tournamentResults = document.querySelector('#tournamentResults');
 
-// Start the tournament
-game();
-
-// Show the overall result of the games
-if (score > 0) {
-    console.log("You won the tournament!")
-} else {
-    console.log("You did not win the tournament.")
-}
+// Finding out which button the user clicked and starting the game
+let btnChoice = document.querySelector('#btnChoice');
+btnChoice.addEventListener('click', event => {
+    let playerChoice = event.target.id;
+    switch(playerChoice) {
+        case 'rock':
+            game(0);
+            break;
+        case 'paper':
+            game(1);
+            break;
+        case 'scissors':
+            game(2);
+            break;
+    }
+});
